@@ -1,0 +1,31 @@
+{
+	
+	"name": "joshmcmillan/bartender",
+	"description": "A PHP barcode generation library.",
+	"version": "0.0.1-dev",
+	"homepage": "https://github.com/joshmcmillan/bartender",
+	"license": "MIT",
+	"authors": [
+
+		{
+
+			"name": "Josh McMillan",
+			"email": "josh@joshmcmillan.co.uk",
+			"homepage": "http://joshmcmillan.co.uk",
+			"role": "Developer"
+
+		}
+
+	],
+
+	"autoload": {
+
+		"psr-0": {
+
+			"Bartender": "src/"
+
+		}
+
+	}
+
+}
