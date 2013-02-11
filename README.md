@@ -8,8 +8,8 @@ Presently it doesn't do much - it simply converts a string to a Code 128 barcode
 
 To get a barcode, simply pass a driver into an outputter.
 
-	$barcode = \Bartender\Driver\Code128BDriver('Barcode123');
-	$output  = \Bartender\Outputter\PNGOutputter($output);
+	$barcode = new \Bartender\Driver\Code128BDriver('Barcode123');
+	$output  = new \Bartender\Outputter\PNGOutputter($output);
 
 	header('Content-Type: image/png');
 
