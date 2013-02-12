@@ -2,6 +2,11 @@
 
 namespace Bartender;
 
+/**
+ * This is an abstract class which all drivers extend.
+ *
+ * @author  Josh McMillan <josh@joshmcmillan.co.uk>
+ */
 abstract class Driver
 {
 

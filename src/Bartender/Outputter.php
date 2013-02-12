@@ -2,11 +2,38 @@
 
 namespace Bartender;
 
+/**
+ * This is an abstract class which all outputters extend
+ *
+ * @author  Josh McMillan <josh@joshmcmillan.co.uk>
+ */
 abstract class Outputter
 {
 	
-	protected $barcode, $options = array(), $defaultOptions = array();
+	/**
+	 * Instance of a barcode driver
+	 * @var \Bartender\Driver
+	 */
+	protected $barcode;
 
+	/**
+	 * Options passed to outputter
+	 * @var array
+	 */
+	protected $options = array();
+
+	/**
+	 * Default options used
+	 * @var array
+	 */
+	protected $defaultOptions = array();
+
+	/**
+	 * Constructor
+	 * 
+	 * @param \Bartender\Driver $barcode Barcode driver instance
+	 * @param array             $options Options
+	 */
 	public function __construct(\Bartender\Driver $barcode, array $options = array())
 	{
 
@@ -15,6 +42,11 @@ abstract class Outputter
 
 	}
 
+	/**
+	 * Returns the encoded barcode value as an array of booleans instead of 0s and 1s
+	 * 
+	 * @return array
+	 */
 	public function booleans()
 	{
 
@@ -31,6 +63,14 @@ abstract class Outputter
 
 	}
 
+	/**
+	 * Fetches an option by merging the default options and user-defined options
+	 * 
+	 * @param  string $name Option name
+	 * @return mixed        Option value
+	 * 
+	 * @todo   Handle nonexistent option
+	 */
 	public function option($name)
 	{
 

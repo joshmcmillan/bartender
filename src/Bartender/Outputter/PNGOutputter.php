@@ -2,9 +2,18 @@
 
 namespace Bartender\Outputter;
 
+/**
+ * This outputs a barcode as a PNG
+ *
+ * @author  Josh McMillan <josh@joshmcmillan.co.uk>
+ */
 class PNGOutputter extends \Bartender\Outputter
 {
 	
+	/**
+	 * Default options
+	 * @var array
+	 */
 	protected $defaultOptions = array(
 
 		'barHeight'       => 60,
@@ -14,6 +23,9 @@ class PNGOutputter extends \Bartender\Outputter
 
 	);
 
+	/**
+	 * Renders out a PNG using the GD library
+	 */
 	public function render()
 	{
 
@@ -31,14 +43,14 @@ class PNGOutputter extends \Bartender\Outputter
 		$barColor = imagecolorallocate($image, $barColor[0], $barColor[1], $barColor[2]);
 
 		$x       = 0;
-		$xdim    = 1;
 
-		foreach($booleans as $line) {
+		foreach($booleans as $line)
+		{
 
 			if($line)
 			{
 
-				imagefilledrectangle($image, $x, 0, $x + ($xdim - 1), $height - 1, $barColor);
+				imagefilledrectangle($image, $x, 0, $x + $this->option('barWidth') - 1, $height - 1, $barColor);
 
 			}
 
@@ -50,6 +62,10 @@ class PNGOutputter extends \Bartender\Outputter
 
 	}
 
+	/**
+	 * Returns string version of PNG
+	 * @return string PNG
+	 */
 	public function __toString() {
 
 		ob_start();

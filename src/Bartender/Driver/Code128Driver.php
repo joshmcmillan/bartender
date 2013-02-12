@@ -3,16 +3,35 @@
 namespace Bartender\Driver;
 
 /**
- * @todo  Refactor this whole class, it's a clusterf*ck
+ * This is a driver for Code 128 barcodes (of all types)
+ *
+ * @author  Josh McMillan <josh@joshmcmillan.co.uk>
  */
 class Code128Driver extends \Bartender\Driver
 {
 	
-	protected $data, $type;
+	/**
+	 * Data to contain in barcode
+	 * @var string
+	 */
+	protected $data = '';
 
-	protected $stop = '11000111010';
-	protected $terminate = '11';
+	/**
+	 * Type of code (A, B or C)
+	 * @var string
+	 */
+	protected $type = 'A';
 
+	/**
+	 * Stop code
+	 * @var string
+	 */
+	protected $stopCode = '1100011101011';
+
+	/**
+	 * Array of encoded values of numbers
+	 * @var array
+	 */
 	protected $encodings = array(
 
 		0 => '11011001100', 1 => '11001101100', 2 => '11001100110',
@@ -54,6 +73,10 @@ class Code128Driver extends \Bartender\Driver
 	
 	);
 
+	/**
+	 * Array containing possible numeric values of characters for all 3 types of Code 128 barcode
+	 * @var array
+	 */
 	protected $values = array(
 
 		'A' => array(
@@ -146,10 +169,16 @@ class Code128Driver extends \Bartender\Driver
 
 	);
 
+	/**
+	 * Constructor
+	 * 
+	 * @param string $data Barcode data to encode
+	 * @param string $type Type of code
+	 */
 	public function __construct($data, $type = 'A')
 	{
 
-		if($type != 'A' and $type !== 'B' and $type !== 'C')
+		if($type !== 'A' and $type !== 'B' and $type !== 'C')
 		{
 
 			throw new \Bartender\Exception('Code 128 type must be either A, B or C.');
@@ -162,6 +191,11 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
+	/**
+	 * Assemble encoded barcode
+	 * 
+	 * @return string Encoded barcode
+	 */
 	public function encoding()
 	{
 
@@ -169,13 +203,11 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
-	protected function startNumber()
-	{
-
-		return $this->values['START' . $this->type];
-
-	}
-
+	/**
+	 * Get encoded start number
+	 * 
+	 * @return string Encoded start number
+	 */
 	protected function startEncoding()
 	{
 
@@ -183,6 +215,11 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
+	/**
+	 * Get encoded data
+	 * 
+	 * @return string Encoded data
+	 */
 	protected function dataEncoding()
 	{
 
@@ -199,6 +236,11 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
+	/**
+	 * Get encoded check digit
+	 * 
+	 * @return [type] [description]
+	 */
 	protected function checksumEncoding()
 	{
 
@@ -209,16 +251,19 @@ class Code128Driver extends \Bartender\Driver
 		$sum    = 0;
 		$sticky = false;
 
-		foreach($numbers as $number) {
+		foreach($numbers as $number)
+		{
 
 			$sum += ($number * $weight);
 			
-			if($weight != 1 or $sticky == true) {
+			if($weight !== 1 or $sticky === true)
+			{
 
 				++$weight;
 
 			}
-			else {
+			else
+			{
 
 				$sticky = true;
 
@@ -232,13 +277,35 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
+	/**
+	 * Returns stop code for barcode
+	 * 
+	 * @return string Termination code
+	 */
 	protected function stopEncoding()
 	{
 
-		return $this->stop . $this->terminate;
+		return $this->stopCode;
 
 	}
 
+	/**
+	 * Get relevant start number for barcode type
+	 * 
+	 * @return int Start number
+	 */
+	protected function startNumber()
+	{
+
+		return $this->values['START' . $this->type];
+
+	}
+
+	/**
+	 * Returns an array of the data's characters
+	 * 
+	 * @return array Characters of ->data
+	 */
 	protected function characters()
 	{
 
@@ -246,6 +313,11 @@ class Code128Driver extends \Bartender\Driver
 
 	}
 
+	/**
+	 * Converts characters into numeric values
+	 * 
+	 * @return array Numeric character values
+	 */
 	protected function numbers() 
 	{
 
